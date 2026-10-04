@@ -1,0 +1,45 @@
+PRÁCTICA 1 REDES: INTRODUCCIÓN A WIRESHARK Y LIBPCAP
+
+Autores:
+- Alejandro Fernandez Fernandez
+- Marcos JImenez de las Moras
+Grupo: 1322
+Pareja: 01
+
+Autoevaluacion:
+
+    Normativa de entrega cumplida en su totalidad:
+        Estado: Realizado
+        Validación: Se han incluido todos los ficheros fuente (.py, wrapper rc1_pcap.py, leeme.txt y practica1captura.png) comprimidos en el formato zip pedido.
+
+    Contar paquetes de una traza (independientemente del número de paquetes):
+        Estado: Realizado
+        Validación: Se ha ejecutado 'practica1.py --file traza1.pcap' comprobando que el recuento final coincide con el número de paquetes indicado por Wireshark al abrir el mismo fichero.
+
+    Contar paquetes de la interfaz de red:
+        Estado: Realizado
+        Validación: Se ha ejecutado con '--itf ens33' y comprobado que tras pulsar Control-C el total mostrado coincide con las tramas capturadas.
+
+    Uso de un único flujo para traza e interfaz:
+        Estado: Realizado
+        Validación: La separación solo se realiza al abrir el descriptor ('pcap_open_live' frente a 'pcap_open_offline'). A partir de ahí se usa la misma llamada a 'pcap_loop' y la misma función callback 'procesa_paquete'.
+
+    Almacenar correctamente el tráfico capturado en vivo en una traza:
+        Estado: Realizado
+        Validación: Se comprobó que los paquetes capturados en vivo se escriben completos mediante 'pcap_dump' conservando la cabecera pcap íntegra, verificando su correcta apertura en Wireshark.
+
+    Separar correctamente el tráfico capturado en dos trazas:
+        Estado: Realizado
+        Validación: Se comprobó que las tramas con bytes 12 y 13 iguales a 0x08 y 0x06 se almacenan en 'capturaNOIP.ens33..pcap', mientras que el resto de tráfico se almacena en 'captura.ens33..pcap'.
+
+    Gestionar correctamente el número de paquetes a leer (--npkts):
+        Estado: Realizado
+        Validación: Se comprobó que al pasar '--npkts X' el programa procesa exactamente ese número de paquetes y finaliza de manera ordenada. Sin este parámetro, el bucle procesa indefinidamente hasta interrupción manual (Ctrl-C).
+
+    Calcular tiempo entre último y primer paquete:
+        Estado: Realizado
+        Validación: Se verificó que si num_paquetes >= 2 se calcula la diferencia de marcas de tiempo de las cabeceras pcap (tv_sec y tv_usec). Si hay menos de 2 paquetes se devuelve 0.
+
+    Imprimir los N primeros bytes de un paquete (probado para N > 32) y validarlo con Wireshark:
+        Estado: Realizado
+        Validación: Se ha probado con '--nbytes 64' comprobando que los bytes se imprimen en hexadecimal en mayúsculas, separados por espacios en bloques de 16 por línea, validando la coincidencia en la captura adjunta 'practica1captura.png'.
