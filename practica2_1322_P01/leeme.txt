@@ -1,0 +1,45 @@
+PRÁCTICA 2: ARQUITECTURA DE PROTOCOLOS, ETHERNET Y ARP
+
+AUTORES:
+- Alejandro Fernández Fernández
+- Marcos Jiménez de las Moras
+- Grupo: 1322
+- Pareja: 01
+
+AUTOEVALUACIÓN Y VALIDACIÓN DE CRITERIOS
+
+1. Fichero leeme.txt bien explicado:
+   - Estado: Realizado.
+   - Validación: Documentación completa de autores y justificación de cada criterio.
+
+2. Recibir tramas Ethernet, comprobaciones y callback superior:
+   - Estado: Realizado.
+   - Validación: 'process_Ethernet_frame' filtra por tamaño (>= 14 B), MAC propia/broadcast y pasa los datos al protocolo registrado en 'EthernetProtocols'.
+
+3. Enviar tramas Ethernet correctamente:
+   - Estado: Realizado.
+   - Validación: 'sendEthernetFrame' monta la cabecera (14 B), limita a 1514 B, aplica padding a 60 B e inyecta con 'pcap_inject'.
+
+4. Imprimir mensajes sobre el protocolo 0x0AA0:
+   - Estado: Realizado.
+   - Validación: 'ethmsg.py' envía en broadcast con longitud en orden de red y 'process_ethMsg_frame' imprime con timestamp y formato requerido. Validado con 'm' entre h1 y h2.
+
+5. Enviar correctamente peticiones ARP:
+   - Estado: Realizado.
+   - Validación: 'createARPRequest' monta la trama de 28 B (opcode 1, MAC destino a ceros) y 'ARPResolution' gestiona hasta 3 reintentos. Validado con 'a <IP>'.
+
+6. Procesar correctamente peticiones ARP recibidas:
+   - Estado: Realizado.
+   - Validación: 'processARPRequest' ignora tramas propias y responde en unicast si coincide con nuestra IP.
+
+7. Enviar correctamente respuestas ARP:
+   - Estado: Realizado.
+   - Validación: 'createARPReply' genera respuesta unicast (opcode 2) completada a 60 B en Ethernet. Comprobado en Wireshark.
+
+8. Procesar correctamente respuestas ARP:
+   - Estado: Realizado.
+   - Validación: 'processARPReply' valida la IP solicitada, almacena la MAC, desactiva 'awaitingResponse' y sincroniza hilos con 'globalLock'.
+
+9. Manejo correcto de la caché ARP:
+   - Estado: Realizado.
+   - Validación: 'ExpiringDict' (10 s) protegido por 'cacheLock'. 'ARPResolution' comprueba la caché antes de enviar y se valida visualmente con 'p'.
